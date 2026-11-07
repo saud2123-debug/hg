@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<!-- saved from url=(0072)https://bucolic-stroopwafel-8263a6.netlify.app/scarface_loading_10s.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=1dbc4458-3f8d-482b-a7c8-4a12fcaad78e
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>050 Menu Loading</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: transparent;
+            font-family: Arial, Helvetica, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loader-card {
+            width: 360px;
+            padding: 23px 27px 21px;
+            border-radius: 18px;
+            background: rgba(5, 8, 12, 0.40);
+            border: 1px solid rgba(0, 0, 0, 0.38);
+            box-shadow:
+                0 0 26px rgba(53, 214, 255, 0.22),
+                inset 0 0 20px rgba(255, 255, 255, 0.025);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            animation: enter .45s ease-out forwards;
+        }
+
+        .title {
+            text-align: center;
+            color: #EAFBFF;
+            font-size: 29px;
+            font-weight: 900;
+            letter-spacing: 1.2px;
+            text-shadow:
+                0 0 6px rgba(0,0,0,.95),
+                0 0 16px rgba(0, 0, 0, 0.7);
+        }
+
+        .discord {
+            margin-top: 7px;
+            text-align: center;
+            color: #fff8f8;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: .6px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.45);
+        }
+
+        .status-row {
+            margin-top: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #000000;
+            font-weight: 800;
+        }
+
+        #statusText {
+            font-size: 13px;
+            color: rgba(255,255,255,.90);
+            text-shadow: 0 0 7px rgba(0,0,0,.95);
+            transition: opacity .18s ease, transform .18s ease;
+        }
+
+        #percentText {
+            font-size: 13px;
+            color: #000000;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.65);
+        }
+
+        .bar {
+            position: relative;
+            width: 100%;
+            height: 8px;
+            margin-top: 9px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.14);
+            overflow: hidden;
+            box-shadow: inset 0 0 8px rgba(0,0,0,.65);
+        }
+
+        #barFill {
+            width: 0%;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #000000, #000000);
+            box-shadow:
+                0 0 12px rgba(0, 0, 0, 0.9),
+                0 0 24px rgba(2, 2, 2, 0.45);
+        }
+
+        .mini-line {
+            margin-top: 12px;
+            height: 1px;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.65), transparent);
+            opacity: .75;
+        }
+
+        .done {
+            color: #00ff88 !important;
+            text-shadow:
+                0 0 8px rgba(0,255,136,.75),
+                0 0 14px rgba(0,255,136,.35) !important;
+        }
+
+        @keyframes enter {
+            from { opacity: 0; transform: translateY(8px) scale(.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+    </style>
+<style>undefined</style><link rel="preconnect" href="https://fonts.googleapis.com/" crossorigin="use-credentials"><link rel="preconnect" href="https://fonts.gstatic.com/"><link rel="stylesheet" href="./ScarFace Menu Loading_files/css2"></head>
+
+<body>
+    <div class="loader-card">
+        <div class="title">050 Menu</div>
+        <div class="discord">Discord.gg/050</div>
+
+        <div class="status-row">
+            <span id="statusText" style="opacity: 1; transform: translateY(0px);">Loading Finalizing</span>
+            <span id="percentText">85%</span>
+        </div>
+
+        <div class="bar">
+            <div id="barFill" style="width: 85%;"></div>
+        </div>
+
+        <div class="mini-line"></div>
+    </div>
+
+    <script>
+        const TOTAL_DURATION = 10000;
+
+        const statusSteps = [
+            { percent: 0,   text: "Loading Menu" },
+            { percent: 20,  text: "Loading ByPass" },
+            { percent: 40,  text: "Loading ByPass 2" },
+            { percent: 60,  text: "Loading Secure Modules" },
+            { percent: 80,  text: "Loading Finalizing" },
+            { percent: 100, text: "Done ✓" }
+        ];
+
+        const start = performance.now();
+        const statusText = document.getElementById("statusText");
+        const percentText = document.getElementById("percentText");
+        const barFill = document.getElementById("barFill");
+
+        let lastText = "";
+
+        function setStatus(text) {
+            if (lastText === text) return;
+            lastText = text;
+
+            statusText.style.opacity = "0";
+            statusText.style.transform = "translateY(4px)";
+
+            setTimeout(() => {
+                statusText.textContent = text;
+
+                if (text.includes("Done")) {
+                    statusText.classList.add("done");
+                } else {
+                    statusText.classList.remove("done");
+                }
+
+                statusText.style.opacity = "1";
+                statusText.style.transform = "translateY(0)";
+            }, 80);
+        }
+
+        function update(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / TOTAL_DURATION, 1);
+            const percent = Math.floor(progress * 100);
+
+            percentText.textContent = percent + "%";
+            barFill.style.width = percent + "%";
+
+            let current = statusSteps[0].text;
+            for (const step of statusSteps) {
+                if (percent >= step.percent) current = step.text;
+            }
+
+            setStatus(current);
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                percentText.textContent = "100%";
+                barFill.style.width = "100%";
+                setStatus("Done ✓");
+            }
+        }
+
+        requestAnimationFrame(update);
+    </script>
+
+
+</body></html>
